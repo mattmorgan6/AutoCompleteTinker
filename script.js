@@ -1,6 +1,25 @@
 
-
 let dataJson = {}
+
+function getJson(data) {
+  let arr = []
+
+  // Fill arr with all the genes if they are defined.
+  lines = data.split("\n")
+  lines.forEach(element => {
+    curr = element.split(" ")
+    if (curr[1] && curr[2]) {
+      obj = {};
+      obj["name"] = curr[1];
+      obj["coordinate"] = curr[2];
+      arr.push(obj);
+    }
+  });
+  
+  // newarr = arr.slice(0,95000);
+  console.log(arr.length);
+  return arr;
+}
 
 function readFile(input) {
   let file = input.files[0];
@@ -11,9 +30,7 @@ function readFile(input) {
 
   reader.onload = function() {
     // console.log(reader.result);
-    jsonObj = JSON.parse(reader.result)
-    console.log(jsonObj)
-		dataJson = jsonObj;
+		dataJson = getJson(reader.result);
   };
 
   reader.onerror = function() {
