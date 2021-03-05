@@ -1,11 +1,37 @@
+
+
+let dataJson = {}
+
+function readFile(input) {
+  let file = input.files[0];
+
+  let reader = new FileReader();
+
+  reader.readAsText(file);
+
+  reader.onload = function() {
+    // console.log(reader.result);
+    jsonObj = JSON.parse(reader.result)
+    console.log(jsonObj)
+		dataJson = jsonObj;
+  };
+
+  reader.onerror = function() {
+    console.log(reader.error);
+  };
+
+}
+
+
 // autoComplete.js input eventListener for search results event
 document.querySelector("#autoComplete").addEventListener("results", (event) => {
 	console.log(event);
 });
 
+
 // The autoComplete.js Engine instance creator
 const autoCompleteJS = new autoComplete({
-	name: "food & drinks",
+	name: "Search for a gene",
 	data: {
 		src: async function () {
 			// Loading placeholder text
@@ -13,33 +39,35 @@ const autoCompleteJS = new autoComplete({
 				.querySelector("#autoComplete")
 				.setAttribute("placeholder", "Loading...");
 			// Fetch External Data Source
-			const source = await fetch(
-				"https://data.nasa.gov/resource/y77d-th95.json"
-			);
-			const data = await source.json();
+			// const source = await fetch(
+			// 	"https://raw.githubusercontent.com/mattmorgan6/AutoCompleteTinker/main/genes10.json"
+			// );
+			// const data = await source.json();
+			const data = dataJson;
 			// Post loading placeholder text
 			document
 				.querySelector("#autoComplete")
-				.setAttribute("placeholder", "Food & Drinks");
+				.setAttribute("placeholder", "Gene Search");
 			// Returns Fetched data
 			return data;
 		},
-		key: ["name"],
+		key: ["name", "coordinate"],
 		results: (list) => {
 			// Filter duplicates
-			const filteredResults = Array.from(
-				new Set(list.map((value) => value.match))
-			).map((food) => {
-				return list.find((value) => value.match === food);
-			});
+			// TODO: Currently filtering results causes a major hang! (so that's why it is commented)
+			// const filteredResults = Array.from(
+			// 	new Set(list.map((value) => value.match))
+			// ).map((food) => {
+			// 	return list.find((value) => value.match === food);
+			// });
 
-			return filteredResults;
+			return list;
 		}
 	},
 	trigger: {
 		event: ["input", "focus"]
 	},
-	placeHolder: "Search for Meteors",
+	placeHolder: "Search for Genes",
 	searchEngine: "strict",
 	highlight: true,
 	maxResults: 5,

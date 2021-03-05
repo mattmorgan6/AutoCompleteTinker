@@ -1,11 +1,29 @@
 
+function getJson(data) {
+  let arr = []
+
+  // Fill arr with all the genes if they are defined.
+  lines = data.split("\n")
+  lines.forEach(element => {
+    curr = element.split(" ")
+    if (curr[1] && curr[2]) {
+      obj = {}
+      obj["name"] = curr[1]
+      obj["coordinate"] = curr[2]
+      arr.push(obj)
+    }
+  });
+  
+  // newarr = arr.slice(0,95000);
+  console.log(arr.length);
+  const myJSON = JSON.stringify(arr);
+  return myJSON;
+}
+
 var fs = require('fs');
-console.log("heyo")
+console.log("Creating genes12.json")
 
 const filepath = "input.txt"
-
-
-
 
 fs.readFile(filepath, 'utf8', function(err, data) {
   if(err) {
@@ -13,33 +31,9 @@ fs.readFile(filepath, 'utf8', function(err, data) {
       return;
   }
 
-  let arr = []
+  const myJSON = getJson(data)
 
-  // function myFunc(value) {
-  //   curr = value.split()
-  //   obj = {}
-  //   obj["name1"] = curr[1]
-  //   obj["name2"] = curr[2]
-  //   arr.push(obj)
-  // }
-
-  lines = data.split("\n")
-  lines.forEach(element => {
-    curr = element.split(" ")
-    obj = {}
-    obj["name1"] = curr[1]
-    obj["name2"] = curr[2]
-    arr.push(obj)
-  });
-  
-  const myJSON = JSON.stringify(arr);
-
-  // console.log(lines[0]);
-  // console.log(lines[3]);
-  // console.log(arr[0]);
-  // console.log(arr[2]);
-
-  fs.writeFile('genes.json', myJSON, function(err) {
+  fs.writeFile('genes12.json', myJSON, function(err) {
       if(err) {
           console.error("Could not write file: %s", err);
       }
