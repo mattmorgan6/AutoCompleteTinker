@@ -117,9 +117,10 @@ const autoCompleteJS = new autoComplete({
 		// const selection = feedback.selection.value[feedback.selection.key];
 		const selection = feedback.selection.value
 		// Render selected choice to selection div
-		document.querySelector(".selection").innerHTML = selection[feedback.selection.key];
+		document.querySelector(".selection").innerHTML = JSON.stringify(selection);
 		// document.querySelector(".selection").innerHTML = JSON.stringify(selection);
 		// Replace Input value with the selected value
+		// document.querySelector("#autoComplete").value = selection[feedback.selection.key];
 		document.querySelector("#autoComplete").value = selection[feedback.selection.key];
 		// Console log autoComplete data feedback
 		console.log(feedback);
